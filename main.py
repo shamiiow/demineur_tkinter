@@ -1,3 +1,5 @@
+# made by ø
+# this code is fuck dup
 import tkinter
 import random
 
@@ -30,25 +32,23 @@ def game(x, y):
                     if grille[i-1][j-(k-1)] == 10:
                         grille[i][j] += 1
 
-
     root.geometry(f"{len(grille)*30}x{len(grille[0]*27)}")
     nb_bomb = 5
 
-    def moredeleted(coord) :
+    def moredeleted(coord):
         if grille[int(coord[0])][int(coord[1])] != 10:
             if grille[int(coord[0])][int(coord[1])-1] != 10:
                 b[f"{int(coord[0])}{int(coord[1])-1}"].grid_forget()
             if grille[int(coord[0])][int(coord[1]) + 1] != 10:
                 b[f"{int(coord[0])}{int(coord[1])+1}"].grid_forget()
             for k in range(3):
-                if grille[int(coord[0])+1][int(coord[1])-(k-1)] != 10:
+                if grille[int(coord[0])+1][int(coord[1])-(k-1)] != 10 and (int(coord[0])+1) != 0 and (int(coord[1])-(k-1)) != 0 and (int(coord[0]+1)) != len(grille) and (int(coord[1]-(k-1))) != len(grille):
                     b[f"{int(coord[0])+1}{int(coord[1])-(k-1)}"].grid_forget()
             for k in range(3):
-                if grille[int(coord[0])-1][int(coord[1])-(k-1)] != 10:
+                if grille[int(coord[0])-1][int(coord[1])-(k-1)] != 10 and (int(coord[0])-1) != 0 and (int(coord[1])-(k-1)) != 0 and (int(coord[0]-1)) != len(grille) and (int(coord[1]-(k-1))) != len(grille):
                     b[f"{int(coord[0])-1}{int(coord[1])-(k-1)}"].grid_forget()
 
-
-    def hidethecase(coord):
+    def hidethecase(coord: str):
         b[coord].grid_forget()
         moredeleted(coord)
 
