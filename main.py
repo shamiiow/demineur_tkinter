@@ -1,11 +1,12 @@
 import tkinter
 import random
 
+
 def game(x, y):
     nb_bomb = 10
     root = tkinter.Tk()
-    taille = 5
-    grille = [[0 for i in range(taille+1)] for i in range(taille+1)]
+    long = 11
+    grille = [[0 for j in range(long+1)] for i in range(long+1)]
 
     for i in range(nb_bomb):
         while True:
@@ -30,21 +31,35 @@ def game(x, y):
                         grille[i][j] += 1
 
 
-    root.geometry(f"{len(grille)*50}x{len(grille[0]*50)}")
+    root.geometry(f"{len(grille)*30}x{len(grille[0]*27)}")
     nb_bomb = 5
+
+    def moredeleted(coord) :
+        if grille[int(coord[0])][int(coord[1])] != 10:
+            if grille[int(coord[0])][int(coord[1])-1] != 10:
+                b[f"{int(coord[0])}{int(coord[1])-1}"].grid_forget()
+            if grille[int(coord[0])][int(coord[1]) + 1] != 10:
+                b[f"{int(coord[0])}{int(coord[1])+1}"].grid_forget()
+            for k in range(3):
+                if grille[int(coord[0])+1][int(coord[1])-(k-1)] != 10:
+                    b[f"{int(coord[0])+1}{int(coord[1])-(k-1)}"].grid_forget()
+            for k in range(3):
+                if grille[int(coord[0])-1][int(coord[1])-(k-1)] != 10:
+                    b[f"{int(coord[0])-1}{int(coord[1])-(k-1)}"].grid_forget()
+
 
     def hidethecase(coord):
         b[coord].grid_forget()
-        if grille[int(coord[0])][int(coord[1])] == 10 :
+        moredeleted(coord)
+
+
+        if grille[int(coord[0])][int(coord[1])] == 10:
             print("boom")
 
     a = {}
     for i in range(1, len(grille)-1):
         for j in range(1, len(grille)-1):
-            if grille[i][j] != 10:
-                a[f"{i}{j}"] = tkinter.Label(root, text=grille[i][j])
-            else :
-                a[f"{i}{j}"] = tkinter.Label(root, text=grille[i][j])  #load image of a BOMB
+            a[f"{i}{j}"] = tkinter.Label(root, text=grille[i][j])
 
     b = {}
     for i in range(1, len(grille)-1):
@@ -56,10 +71,10 @@ def game(x, y):
         for j in range(1, len(grille)-1):
             a[f"{i}{j}"].grid(row=i, column=j, ipadx=10, ipady=3)
 
-
     for i in range(1, len(grille)-1):
         for j in range(1, len(grille)-1):
             b[f"{i}{j}"].grid(row=i, column=j, ipadx=10, ipady=3)
+
 
     root.mainloop()
 
