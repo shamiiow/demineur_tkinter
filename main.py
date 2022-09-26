@@ -7,7 +7,6 @@ def game(x, y):
     taille = 5
     grille = [[0 for i in range(taille+1)] for i in range(taille+1)]
 
-
     for i in range(nb_bomb):
         while True:
             cx = random.randint(1, len(grille)-2)
@@ -18,22 +17,18 @@ def game(x, y):
     for i in range(1, len(grille)-1):
         for j in range(1, len(grille)-1):
             if grille[i][j] != 10:
-                if grille[i][j - 1] == 10:
+                if grille[i][j-1] == 10:
                     grille[i][j] += 1
                 if grille[i][j+1] == 10:
                     grille[i][j] += 1
-                if grille[i+1][j-1] == 10:
-                    grille[i][j] += 1
-                if grille[i+1][j] == 10:
-                    grille[i][j] += 1
-                if grille[i+1][j+1] == 10:
-                    grille[i][j] += 1
-                if grille[i-1][j-1] == 10:
-                    grille[i][j] += 1
-                if grille[i-1][j] == 10:
-                    grille[i][j] += 1
-                if grille[i-1][j+1] == 10:
-                    grille[i][j] += 1
+
+                for k in range(3):
+                    if grille[i+1][j-(k-1)] == 10:
+                        grille[i][j] += 1
+                for k in range(3):
+                    if grille[i-1][j-(k-1)] == 10:
+                        grille[i][j] += 1
+
 
     root.geometry(f"{len(grille)*50}x{len(grille[0]*50)}")
     nb_bomb = 5
@@ -46,7 +41,10 @@ def game(x, y):
     a = {}
     for i in range(1, len(grille)-1):
         for j in range(1, len(grille)-1):
-            a[f"{i}{j}"] = tkinter.Label(root, text=grille[i][j])
+            if grille[i][j] != 10:
+                a[f"{i}{j}"] = tkinter.Label(root, text=grille[i][j])
+            else :
+                a[f"{i}{j}"] = tkinter.Label(root, text=grille[i][j])  #load image of a BOMB
 
     b = {}
     for i in range(1, len(grille)-1):
@@ -57,6 +55,7 @@ def game(x, y):
     for i in range(1, len(grille)-1):
         for j in range(1, len(grille)-1):
             a[f"{i}{j}"].grid(row=i, column=j, ipadx=10, ipady=3)
+
 
     for i in range(1, len(grille)-1):
         for j in range(1, len(grille)-1):
