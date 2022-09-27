@@ -1,82 +1,45 @@
 # made by ø
-# this code is fuck dup
+# this code is not fuck dup anymore
 import tkinter
 import random
 
+root = tkinter.Tk()
+root.geometry("500x500")
+LONG = 10
+NB_BOMB = 10
+grille = [[0 for j in range(LONG)] for i in range(LONG)]
 
-def game(x, y):
-    nb_bomb = 10
-    root = tkinter.Tk()
-    long = 11
-    grille = [[0 for j in range(long+1)] for i in range(long+1)]
-
-    for i in range(nb_bomb):
-        while True:
-            cx = random.randint(1, len(grille)-2)
-            cy = random.randint(1, len(grille)-2)
-            if grille[cx][cy] == 0:
-                grille[cx][cy] = 10
-                break
-    for i in range(1, len(grille)-1):
-        for j in range(1, len(grille)-1):
-            if grille[i][j] != 10:
-                if grille[i][j-1] == 10:
-                    grille[i][j] += 1
-                if grille[i][j+1] == 10:
-                    grille[i][j] += 1
-
-                for k in range(3):
-                    if grille[i+1][j-(k-1)] == 10:
-                        grille[i][j] += 1
-                for k in range(3):
-                    if grille[i-1][j-(k-1)] == 10:
-                        grille[i][j] += 1
-
-    root.geometry(f"{len(grille)*30}x{len(grille[0]*27)}")
-    nb_bomb = 5
-
-    def moredeleted(coord):
-        if grille[int(coord[0])][int(coord[1])] != 10:
-            if grille[int(coord[0])][int(coord[1])-1] != 10:
-                b[f"{int(coord[0])}{int(coord[1])-1}"].grid_forget()
-            if grille[int(coord[0])][int(coord[1]) + 1] != 10:
-                b[f"{int(coord[0])}{int(coord[1])+1}"].grid_forget()
-            for k in range(3):
-                if grille[int(coord[0])+1][int(coord[1])-(k-1)] != 10 and (int(coord[0])+1) != 0 and (int(coord[1])-(k-1)) != 0 and (int(coord[0]+1)) != len(grille) and (int(coord[1]-(k-1))) != len(grille):
-                    b[f"{int(coord[0])+1}{int(coord[1])-(k-1)}"].grid_forget()
-            for k in range(3):
-                if grille[int(coord[0])-1][int(coord[1])-(k-1)] != 10 and (int(coord[0])-1) != 0 and (int(coord[1])-(k-1)) != 0 and (int(coord[0]-1)) != len(grille) and (int(coord[1]-(k-1))) != len(grille):
-                    b[f"{int(coord[0])-1}{int(coord[1])-(k-1)}"].grid_forget()
-
-    def hidethecase(coord: str):
-        b[coord].grid_forget()
-        moredeleted(coord)
+for i in range(NB_BOMB):
+    while True:
+        cx = random.randint(0, len(grille)-1)
+        cy = random.randint(0, len(grille)-1)
+        if grille[cx][cy] == 0:
+            grille[cx][cy] = 9
+            break
 
 
-        if grille[int(coord[0])][int(coord[1])] == 10:
-            print("boom")
+for i in range(LONG) :
+    print(grille[i])
 
-    a = {}
-    for i in range(1, len(grille)-1):
-        for j in range(1, len(grille)-1):
-            a[f"{i}{j}"] = tkinter.Label(root, text=grille[i][j])
-
-    b = {}
-    for i in range(1, len(grille)-1):
-        for j in range(1, len(grille)-1):
-            b[f"{i}{j}"] = tkinter.Button(root, command=lambda coord=f"{i}{j}": hidethecase(coord))
-            b[f"{i}{j}"].bind("<Button-3>")
-
-    for i in range(1, len(grille)-1):
-        for j in range(1, len(grille)-1):
-            a[f"{i}{j}"].grid(row=i, column=j, ipadx=10, ipady=3)
-
-    for i in range(1, len(grille)-1):
-        for j in range(1, len(grille)-1):
-            b[f"{i}{j}"].grid(row=i, column=j, ipadx=10, ipady=3)
+img = {}
+for i in range(10): #temporaire
+    img[i] = tkinter.PhotoImage(file=f"img/{i}.png")
 
 
-    root.mainloop()
+def userplay(coord):
+    button[coord].grid_forget()
 
 
-game(1000, 100)
+answer = {}
+for i in range(LONG):
+    for j in range(LONG):
+        answer[(i, j)] = tkinter.Label(root, image=img[grille[i][j]]) #add that when all img are create : ""
+        answer[(i, j)].grid(row=i, column=j, ipadx=1, ipady=3)
+
+button = {}
+for i in range(LONG):
+    for j in range(LONG):
+        button[(i, j)] = tkinter.Button(root, command=lambda x=(i, j): userplay(x))
+        button[(i, j)].grid(row=i, column=j, ipadx=6)
+
+root.mainloop()
