@@ -13,6 +13,14 @@ grille = [[0 for j in range(LONG)] for i in range(LONG)]
 grille = fonction.bomb(NB_BOMB, grille)
 grille = fonction.number_fill(LONG, grille)
 
+def discovery(coord) :
+    if 0 < coord[0] < (LONG-1) and 0 < coord[1] < (LONG-1):
+        if grille[coord[0]][coord[1]] == 0:
+            for i in range(0, 3, 2):
+                if grille[coord[0]-(i-1)][coord[1]] != 9:
+                    button[(coord[0]-(i-1), coord[1])].grid_forget()
+                if grille[coord[0]][coord[1]-(i-1)] != 9:
+                    button[(coord[0], coord[1]-(i-1))].grid_forget()
 
 
 def user_click(coord, nb_bomb):
@@ -24,14 +32,7 @@ def user_click(coord, nb_bomb):
             for j in range(LONG):
                 button[(i, j)].grid_forget()
         result.config(text="L.O.O.S.E.R")
-    if 0 < coord[0] < (LONG-1) and 0 < coord[1] < (LONG-1):
-        if grille[coord[0]][coord[1]] == 0:
-            for i in range(0, 3, 2):
-                if grille[coord[0]-(i-1)][coord[1]] != 9:
-                    button[(coord[0]-(i-1), coord[1])].grid_forget()
-
-                if grille[coord[0]][coord[1]-(i-1)] != 9:
-                    button[(coord[0], coord[1]-(i-1))].grid_forget()
+    discovery(coord)
 
     print((len(button)))
     print(nb_bomb)
