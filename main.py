@@ -25,8 +25,8 @@ def user_click(coord):
                     button[(coord[0], coord[1]-(i-1))].grid_forget()
 
 
-def thatwork(a):
-    print(a)
+def put_flag(event):
+    print(event)
 
 
 img = {}
@@ -37,13 +37,13 @@ answer = {}
 for i in range(LONG):
     for j in range(LONG):
         answer[(i, j)] = tkinter.Label(root, image=img[grille[i][j]])
-        answer[(i, j)].grid(row=i, column=j, ipadx=1, ipady=3)
+        answer[(i, j)].grid(row=i, column=j, ipadx=2, ipady=3)
 
 button = {}
 for i in range(LONG):
     for j in range(LONG):
         button[(i, j)] = tkinter.Button(root, command=lambda x=(i, j): user_click(x))
         button[(i, j)].grid(row=i, column=j, ipadx=6)
-        button[(i, j)].bind("<Button-3>", lambda x="test": thatwork(x))
+        button[(i, j)].bind("<Button-3>", lambda x="test": put_flag(x))
 
 root.mainloop()
