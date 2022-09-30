@@ -6,17 +6,17 @@ import fonction
 
 
 def game():
-    # create the windows
-
-    root = tkinter.Tk()
-    root.geometry("500x500")
-
     # create the constant and the game grid
 
-    LONG = 10
+    LONG = 15
     NB_BOMB = 2
     grille = [[0 for i in range(LONG)] for i in range(LONG)]
     discovered = [[0 for j in range(LONG)] for i in range(LONG)]
+
+    # create the windows
+
+    root = tkinter.Tk()
+    root.geometry(f"{LONG * 22}x500")
 
     for i in range(LONG):
         grille[0][i] = 100
@@ -37,8 +37,6 @@ def game():
         for j in range(LONG):
             if grille[i][j] == 9:
                 discovered[i][j] = 5
-    for i in range(LONG):
-        print(discovered[i])
     # this function is for cascading discovery of the boxes (not finish (because not working properly))
 
     def discovery(coord):
@@ -71,15 +69,17 @@ def game():
 
     def user_click(coord):
         x = 0
-        if result.cget('text') != '':
+        if grille[coord[0]][coord[1]] == 10:
             return
+    #   if result.cget('text') != '':
+    #       return
         button[coord].grid_forget()
         if grille[coord[0]][coord[1]] == 9:
             for i in range(LONG):
                 for j in range(LONG):
                     if grille[i][j] == 9:
                         button[(i, j)].grid_forget()
-            result.config(text="L.O.O.S.E.R")
+            print('Tu as perdu')
         if grille[coord[0]][coord[1]] == 0:
             discovery(coord)
         else:
@@ -88,46 +88,48 @@ def game():
             if 0 not in discovered[i]:
                 x += 1
         if x == LONG:
-            result.config(text="GIGA CHAD")
-        print(x)
-        print(LONG)
-        for i in range(LONG):
-            print(discovered[i])
+            print('Tu as win')
 
     # this function are going to be for the flap, but it needs to be implemented
 
-    def put_flag():
-        abs_coord_x = root.winfo_pointerx() - root.winfo_rootx()
-        abs_coord_y = root.winfo_pointery() - root.winfo_rooty()
-        print(abs_coord_x)
-        print(abs_coord_y)
+    def put_flag(event):
+        abs_coord_x = gamef.winfo_pointerx() - gamef.winfo_rootx()
+        abs_coord_y = gamef.winfo_pointery() - gamef.winfo_rooty()
+        print(abs_coord_x, abs_coord_x//25)
+        print(abs_coord_y, abs_coord_y//25)
 
     # loading the image for the game
 
     img = {}
-    for i in range(10):
+    for i in range(11):
         img[i] = tkinter.PhotoImage(file=f"img/{i}.png")
 
     # create the 2 layers of widget for the game
 
+    gamef = tkinter.Frame(root, bd=2, bg='red')
+    gamef.grid(row=1, column=0)
+
+    statf = tkinter.Frame(root, bd=2, bg='blue')
+    statf.grid(row=0, column=0)
+
     answer = {}
     for i in range(1, LONG-1):
         for j in range(1, LONG-1):
-            answer[(i, j)] = tkinter.Label(root, image=img[grille[i][j]])
+            answer[(i, j)] = tkinter.Label(gamef, image=img[grille[i][j]])
             answer[(i, j)].grid(row=i+1, column=j, ipadx=3, ipady=3, sticky="N")
 
     button = {}
     for i in range(1, LONG-1):
         for j in range(1, LONG-1):
-            button[(i, j)] = tkinter.Button(root, command=lambda x=(i, j): user_click(x))
+            button[(i, j)] = tkinter.Button(gamef, command=lambda x=(i, j): user_click(x))
             button[(i, j)].grid(row=i+1, column=j, ipadx=7)
             button[(i, j)].bind("<Button-3>", put_flag)
 
-    # widget for telling the player if he loose or win
+    bomb_r = tkinter.Label(statf, text=LONG, font=("Minecraft", 20, "bold"))
+    bomb_r.grid(row=0, column=0)
 
-    result = tkinter.Label(root, font=("Minecraft", 20, "bold"))
-    result.grid(row=0, columnspan=LONG)
-
+    restart = tkinter.Button(statf, text='Restart', command=game)
+    restart.grid(row=0, column=1)
     # render the windows
 
     root.mainloop()

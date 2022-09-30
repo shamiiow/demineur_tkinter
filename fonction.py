@@ -78,8 +78,6 @@ def number_fill(long, grille):
             if grille[i][long - 2] == 9:
                 grille[i][long - 1] += 1
 
-    for i in range(long):
-        print(grille[i])
 
     return grille
 
