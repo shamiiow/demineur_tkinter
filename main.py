@@ -36,21 +36,23 @@ def game(LONG: int, NB_BOMB: int):
     # this function is for cascading discovery of the boxes (not finish (because not working properly))
 
     def discovery(coord: tuple):
-        if not (0 < coord[0] < len(grille) and 0 < coord[1] < len(grille)):
+        x = coord[0]
+        y = coord[1]
+        if not ((0 < x < len(grille)) and (0 < y < len(grille))):
             return
         for i in [-1, 0, 1]:
             for j in [-1, 1]:
-                if (0 <= grille[coord[0]+j][coord[1]+i] < 9) and (discovered[coord[0]+j][coord[1]+i] == 0):
-                    button[(coord[0]+j, coord[1]+i)].grid_forget()
-                    discovered[coord[0]+j][coord[1]+i] = 1
-                    if grille[coord[0]+j][coord[1]+i] == 0:
-                        discovery((coord[0]+j, coord[1]+i))
+                if (0 <= grille[x+j][y+i] < 9) and (discovered[x+j][y+i] == 0):
+                    button[(x+j, y+i)].grid_forget()
+                    discovered[x+j][y+i] = 1
+                    if grille[x+j][y+i] == 0:
+                        discovery((x+j, y+i))
         for i in [-1, 1]:
-            if (0 <= grille[coord[0]][coord[1]+i] < 9) and (discovered[coord[0]][coord[1]+i] == 0):
-                button[(coord[0], coord[1]+i)].grid_forget()
-                discovered[coord[0]][coord[1]+i] = 1
-                if grille[coord[0]][coord[1]+i] == 0:
-                    discovery((coord[0], coord[1]+i))
+            if (0 <= grille[x][y+i] < 9) and (discovered[x][y+i] == 0):
+                button[(x, y+i)].grid_forget()
+                discovered[x][y+i] = 1
+                if grille[x][y+i] == 0:
+                    discovery((x, y+i))
 
     # check if the player win
 
