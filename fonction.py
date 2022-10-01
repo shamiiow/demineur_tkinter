@@ -2,8 +2,8 @@ import random
 
 
 def number_fill(long: int, grille: list) -> list:
-    for i in range(1, long - 1):
-        for j in range(1, long - 1):
+    for i in range(1, long-1):
+        for j in range(1, long-1):
             if grille[i][j] != 9:
                 for k in range(-1, 2):
                     for p in range(-1, 2, 2):

@@ -15,11 +15,19 @@ def game(LONG: int, NB_BOMB: int):
     # create the windows
 
     root = tkinter.Tk()
-    root.geometry(f"500x500")
+    root.geometry("500x500+300+250")
+    root.title("Démineur")
+    root.iconbitmap('img/game_icon.ico')
 
     for i in range(LONG):
-        grille[0][i], grille[LONG-1][i], grille[i][0], grille[i][LONG-1] = 100, 100, 100, 100
-        discovered[0][i], discovered[LONG - 1][i], discovered[i][0], discovered[i][LONG - 1] = 100, 100, 100, 100
+        grille[0][i] = 100
+        grille[LONG-1][i] = 100
+        grille[i][0] = 100
+        grille[i][LONG-1] = 100
+        discovered[0][i] = 100
+        discovered[LONG-1][i] = 100
+        discovered[i][0] = 100
+        discovered[i][LONG-1] = 100
 
     # place the bomb and put the right number around them
 
@@ -88,15 +96,20 @@ def game(LONG: int, NB_BOMB: int):
         button[coord].grid(row=coord[0]+1, column=coord[1])
         button[coord].config(image=img[10])
 
+
+    def replay():
+        root.destroy()
+        windows()
+
     # loading the image for the game
 
     img = {}
-    for i in range(11):
+    for i in range(12):
         img[i] = tkinter.PhotoImage(file=f"img/{i}.png")
 
     # create the 2 layers of widget for the game
 
-    game_frame = tkinter.Frame(root, bd=2, bg='red')
+    game_frame = tkinter.Frame(root, bd=2, bg='#606060')
     game_frame.grid(row=1, column=0)
 
     counter_frame = tkinter.Frame(root, bd=2, bg='blue')
@@ -107,13 +120,13 @@ def game(LONG: int, NB_BOMB: int):
         for j in range(1, LONG-1):
             if grille[i][j] == 9:
                 discovered[i][j] = 5
-            answer[(i, j)] = tkinter.Label(game_frame, image=img[grille[i][j]])
+            answer[(i, j)] = tkinter.Label(game_frame, image=img[grille[i][j]], bg="#C0ADAC")
             answer[(i, j)].grid(row=i+1, column=j, ipadx=3, ipady=3, sticky="w")
 
     button = {}
     for i in range(1, LONG-1):
         for j in range(1, LONG-1):
-            button[(i, j)] = tkinter.Button(game_frame, command=lambda x=(i, j): user_click(x))
+            button[(i, j)] = tkinter.Button(game_frame, bg="#606060", command=lambda x=(i, j): user_click(x))
             button[(i, j)].grid(row=i+1, column=j, ipadx=7)
             button[(i, j)].bind("<Button-3>", lambda e, x=(i, j): put_flag(e, x))
 
@@ -122,7 +135,7 @@ def game(LONG: int, NB_BOMB: int):
 
     # this button doesn't work
 
-    restart = tkinter.Button(counter_frame, text='Restart', command=game)
+    restart = tkinter.Button(counter_frame, text='Restart', command=replay)
     restart.grid(row=0, column=1)
 
     # render the windows
@@ -130,34 +143,39 @@ def game(LONG: int, NB_BOMB: int):
     root.mainloop()
 
 
-settings = []
+def windows() :
+    settings = []
 
-main = tkinter.Tk()
-main.geometry("500x200")
+    main = tkinter.Tk()
+    main.geometry("500x200+300+50")
+    main.title(" "*56+"Setting for the Game")
+    main.iconbitmap('img/setting_icon.ico')
+
+    def play():
+        settings.append(int(len_grid.get()))
+        if (int(number_bomb.get())) > (int(len_grid.get()**2)):
+            print(int(len_grid.get()**2))
+            settings.append(len_grid.get() ** 2)
+        else:
+            settings.append(int(number_bomb.get()))
+        main.destroy()
 
 
-def play():
-    settings.append(int(len_grid.get()))
-    if (int(number_bomb.get())) > (int(len_grid.get()**2)):
-        print(int(len_grid.get()**2))
-        settings.append(len_grid.get() ** 2)
-    else:
-        settings.append(int(number_bomb.get()))
-    main.destroy()
+    len_grid = tkinter.Scale(main, from_=30, to=0, orient=tkinter.VERTICAL)
+    number_bomb = tkinter.Scale(main, from_=69, to=0, orient=tkinter.VERTICAL)
+    text_grid = tkinter.Label(main, text="  Longer of the  \ngrid")
+    text_bomb = tkinter.Label(main, text="Number of\nbomb")
+    launch = tkinter.Button(main, text='Launch\nthe game !', command=play)
+
+    len_grid.place(x=175)
+    text_grid.place(x=175-15, y=105)
+    number_bomb.place(x=175+100)
+    text_bomb.place(x=175+100-5, y=105)
+    launch.place(x=220, y=150)
+
+    main.mainloop()
+
+    game(settings[0]+2, settings[1])
 
 
-len_grid = tkinter.Scale(main, from_=30, to=0, orient=tkinter.VERTICAL)
-number_bomb = tkinter.Scale(main, from_=69, to=0, orient=tkinter.VERTICAL)
-text_grid = tkinter.Label(main, text="  Longer of the  \ngrid")
-text_bomb = tkinter.Label(main, text="Number of\nbomb")
-launch = tkinter.Button(main, text='Launch\nthe game !', command=play)
-
-len_grid.place(x=175)
-text_grid.place(x=175-15, y=105)
-number_bomb.place(x=175+100)
-text_bomb.place(x=175+100-5, y=105)
-launch.place(x=220, y=150)
-
-main.mainloop()
-
-game(settings[0]+2, settings[1])
+windows()
