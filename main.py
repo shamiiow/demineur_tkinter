@@ -1,5 +1,5 @@
 # made by ø
-# this code is not fuck dup anymore
+# this code work now
 
 import tkinter
 import fonction
@@ -112,7 +112,7 @@ def game(LONG: int, NB_BOMB: int):
     game_frame = tkinter.Frame(root, bd=2, bg='#606060')
     game_frame.grid(row=1, column=0)
 
-    counter_frame = tkinter.Frame(root, bd=2, bg='blue')
+    counter_frame = tkinter.Frame(root)
     counter_frame.grid(row=0, column=0)
 
     answer = {}
