@@ -36,8 +36,7 @@ def game(LONG: int, NB_BOMB: int):
     # this function is for cascading discovery of the boxes (not finish (because not working properly))
 
     def discovery(coord: tuple):
-        x = coord[0]
-        y = coord[1]
+        x,y = coord[0], coord[1]
         if not ((0 < x < len(grille)) and (0 < y < len(grille))):
             return
         for i in [-1, 0, 1]:
