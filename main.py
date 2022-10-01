@@ -18,15 +18,8 @@ def game(LONG: int, NB_BOMB: int):
     root.geometry(f"500x500")
 
     for i in range(LONG):
-        grille[0][i] = 100
-        grille[LONG-1][i] = 100
-        grille[i][0] = 100
-        grille[i][LONG-1] = 100
-
-        discovered[0][i] = 100
-        discovered[LONG-1][i] = 100
-        discovered[i][0] = 100
-        discovered[i][LONG-1] = 100
+        grille[0][i], grille[LONG-1][i], grille[i][0], grille[i][LONG-1] = 100, 100, 100, 100
+        discovered[0][i], discovered[LONG - 1][i], discovered[i][0], discovered[i][LONG - 1] = 100, 100, 100, 100
 
     # place the bomb and put the right number around them
 
@@ -90,8 +83,10 @@ def game(LONG: int, NB_BOMB: int):
 
     # this function are going to be for the flap, but it needs to be implemented
 
-    def put_flag(event, x: int):
-        print(x)
+    def put_flag(event, coord: tuple):
+        button[coord].grid_forget()
+        button[coord].grid(row=coord[0]+1, column=coord[1])
+        button[coord].config(image=img[10])
 
     # loading the image for the game
 
