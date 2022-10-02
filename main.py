@@ -15,7 +15,7 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
     # create the windows
 
     root = tkinter.Tk()
-    root.geometry(f"{L}x{l}+300+250")
+    root.geometry(f"{L}x{l}+300+50")
     root.title("Démineur")
     root.iconbitmap('img/game_icon.ico')
     root.configure(bg='#bdbdbd')
@@ -167,7 +167,7 @@ def game_settings() -> None:
 
     # default settings for the size of the grid
 
-    settings = [841, 500]
+    settings = [841, 851]
 
     # create the windows and some settings
 
