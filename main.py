@@ -5,7 +5,7 @@ import tkinter
 import fonction
 
 
-def game(LONG: int, NB_BOMB: int):
+def game(LONG: int, NB_BOMB: int,L=500,l=500):
 
     # set up the game
 
@@ -15,9 +15,10 @@ def game(LONG: int, NB_BOMB: int):
     # create the windows
 
     root = tkinter.Tk()
-    root.geometry("500x500+300+250")
+    root.geometry(f"{L}x{l}+300+250")
     root.title("Démineur")
     root.iconbitmap('img/game_icon.ico')
+    root.configure(bg='#bdbdbd')
 
     for i in range(LONG):
         grille[0][i] = 100
@@ -114,16 +115,16 @@ def game(LONG: int, NB_BOMB: int):
     # loading the image for the game
 
     img = {}
-    for i in range(12):
+    for i in range(13):
         img[i] = tkinter.PhotoImage(file=f"img/{i}.png")
 
     # create the 2 layers of widget for the game
 
     game_frame = tkinter.Frame(root, bd=2, bg='#606060')
-    game_frame.grid(row=1, column=0)
+    game_frame.grid(row=1, column=0, padx=30)
 
-    counter_frame = tkinter.Frame(root)
-    counter_frame.grid(row=0, column=0)
+    counter_frame = tkinter.Frame(root, bg='#bdbdbd')
+    counter_frame.grid(row=0, column=0, pady=5)
 
     answer = {}
     for i in range(1, LONG-1):
@@ -141,13 +142,13 @@ def game(LONG: int, NB_BOMB: int):
             button[(i, j)].bind("<Button-3>", lambda e, x=(i, j): put_flag(e, x))
             button[(i, j)].bind("<Button-2>", dim)
 
-    bomb_r = tkinter.Label(counter_frame, text=LONG, font=("Minecraft", 20, "bold"))
-    bomb_r.grid(row=0, column=0)
+    bomb_r = tkinter.Label(counter_frame, text=LONG, bg='#bdbdbd', font=("Minecraft", 20, "bold"))
+    bomb_r.grid(row=0, column=0, padx=25, ipadx=25)
 
     # this button doesn't work
 
-    restart = tkinter.Button(counter_frame, text='Restart', command=replay)
-    restart.grid(row=0, column=1)
+    restart = tkinter.Button(counter_frame, image=img[12], bg='#bdbdbd', command=replay)
+    restart.grid(row=0, column=1, padx=25)
 
     # render the windows
 
@@ -155,33 +156,40 @@ def game(LONG: int, NB_BOMB: int):
 
 
 def game_settings():
-    settings = []
+    settings = [841,500]
 
     main = tkinter.Tk()
     main.geometry("500x200+300+50")
     main.title(" "*56+"Setting for the Game")
     main.iconbitmap('img/setting_icon.ico')
 
+
     def play():
         settings.append(int(len_grid.get()))
         if (int(number_bomb.get())) > (int(len_grid.get()**2)):
             print(int(len_grid.get()**2))
-            settings.append(len_grid.get() ** 2)
+            settings.append(int(len_grid.get()**2))
         else:
             settings.append(int(number_bomb.get()))
         main.destroy()
 
     def debutant_play():
+        settings[0] = 247
+        settings[1] = 257
         settings.append(7)
         settings.append(10)
         main.destroy()
 
     def intermediaire_play():
+        settings[0] = 479
+        settings[1] = 489
         settings.append(16)
         settings.append(40)
         main.destroy()
 
     def expert_play():
+        settings[0] = 634
+        settings[1] = 644
         settings.append(22)
         settings.append(99)
         main.destroy()
@@ -214,7 +222,7 @@ def game_settings():
 
     main.mainloop()
 
-    game(settings[0]+2, settings[1])
+    game(settings[2]+2, settings[3], settings[0], settings[1])
 
 
 game_settings()
