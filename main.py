@@ -224,7 +224,7 @@ def game_settings() -> None:
     dorc = tkinter.Label(main, text='Or\nCustom\nThe\nSettings', font="Minecraft")
 
     len_grid = tkinter.Scale(main, from_=30, to=0, orient=tkinter.VERTICAL)
-    number_bomb = tkinter.Scale(main, from_=69, to=0, orient=tkinter.VERTICAL)
+    number_bomb = tkinter.Scale(main, from_=150, to=0, orient=tkinter.VERTICAL)
     text_grid = tkinter.Label(main, text="  Longer of the  \ngrid", font=("Minecraft", 10))
     text_bomb = tkinter.Label(main, text="Number of\nbomb", font=("Minecraft", 10))
     launch = tkinter.Button(main, text='Launch\nthe game !', font=("Minecraft", 10), command=play)
