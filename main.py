@@ -34,6 +34,17 @@ def game(LONG: int, NB_BOMB: int):
     grille = fonction.bomb(NB_BOMB, grille)
     grille = fonction.number_fill(LONG, grille)
 
+    # This function is here only for debug
+
+    def dim(event):
+        print("*********Size of the window*********")
+        print("width :", root.winfo_width())
+        print("height :", root.winfo_height())
+        print("******Coordinate of the window******")
+        print("x :", root.winfo_x())
+        print("y :", root.winfo_y())
+        print("------------------------------------")
+
     # this function is for cascading discovery of the boxes (not finish (because not working properly))
 
     def discovery(coord: tuple):
@@ -96,10 +107,9 @@ def game(LONG: int, NB_BOMB: int):
         button[coord].grid(row=coord[0]+1, column=coord[1])
         button[coord].config(image=img[10])
 
-
     def replay():
         root.destroy()
-        windows()
+        game_settings()
 
     # loading the image for the game
 
@@ -129,6 +139,7 @@ def game(LONG: int, NB_BOMB: int):
             button[(i, j)] = tkinter.Button(game_frame, bg="#606060", command=lambda x=(i, j): user_click(x))
             button[(i, j)].grid(row=i+1, column=j, ipadx=7)
             button[(i, j)].bind("<Button-3>", lambda e, x=(i, j): put_flag(e, x))
+            button[(i, j)].bind("<Button-2>", dim)
 
     bomb_r = tkinter.Label(counter_frame, text=LONG, font=("Minecraft", 20, "bold"))
     bomb_r.grid(row=0, column=0)
@@ -143,7 +154,7 @@ def game(LONG: int, NB_BOMB: int):
     root.mainloop()
 
 
-def windows() :
+def game_settings():
     settings = []
 
     main = tkinter.Tk()
@@ -160,22 +171,50 @@ def windows() :
             settings.append(int(number_bomb.get()))
         main.destroy()
 
+    def debutant_play():
+        settings.append(7)
+        settings.append(10)
+        main.destroy()
+
+    def intermediaire_play():
+        settings.append(16)
+        settings.append(40)
+        main.destroy()
+
+    def expert_play():
+        settings.append(22)
+        settings.append(99)
+        main.destroy()
+
+    default = tkinter.Label(main, text='The default settings :', font=("Minecraft", 11))
+    debutant = tkinter.Button(main, text='Debutant', font=("Minecraft", 11), command=debutant_play)
+    intermediaire = tkinter.Button(main, text='Intermediaire', font=("Minecraft", 11), command=intermediaire_play)
+    expert = tkinter.Button(main, text='Expert', font=("Minecraft", 11), command=expert_play)
+
+    dorc = tkinter.Label(main, text='Or\nCustome\nThe\nSettings', font=("Minecraft"))
 
     len_grid = tkinter.Scale(main, from_=30, to=0, orient=tkinter.VERTICAL)
     number_bomb = tkinter.Scale(main, from_=69, to=0, orient=tkinter.VERTICAL)
-    text_grid = tkinter.Label(main, text="  Longer of the  \ngrid")
-    text_bomb = tkinter.Label(main, text="Number of\nbomb")
-    launch = tkinter.Button(main, text='Launch\nthe game !', command=play)
+    text_grid = tkinter.Label(main, text="  Longer of the  \ngrid", font=("Minecraft", 10))
+    text_bomb = tkinter.Label(main, text="Number of\nbomb", font=("Minecraft", 10))
+    launch = tkinter.Button(main, text='Launch\nthe game !', font=("Minecraft", 10), command=play)
 
-    len_grid.place(x=175)
-    text_grid.place(x=175-15, y=105)
-    number_bomb.place(x=175+100)
-    text_bomb.place(x=175+100-5, y=105)
-    launch.place(x=220, y=150)
+    default.place(x=25, y=20)
+    debutant.place(x=25, y=50)
+    intermediaire.place(x=25, y=80)
+    expert.place(x=25, y=110)
+
+    dorc.place(x=200, y=50)
+
+    len_grid.place(x=325)
+    text_grid.place(x=325-15, y=105)
+    number_bomb.place(x=325+100)
+    text_bomb.place(x=325+100-5, y=105)
+    launch.place(x=370, y=150)
 
     main.mainloop()
 
     game(settings[0]+2, settings[1])
 
 
-windows()
+game_settings()
