@@ -253,9 +253,10 @@ def game_settings() -> None:
     main.mainloop()
 
     # after the windows is kill, the game launch
-    try :
+    try:
         game(settings[2]+2, settings[3], settings[0], settings[1])
     except IndexError:
         print("Bye")
+
 
 game_settings()
