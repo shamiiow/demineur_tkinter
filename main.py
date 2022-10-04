@@ -46,6 +46,12 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
 
     # This function is here only for debug
 
+    def debug():
+        print('---------------------------------------------------------------------------------------------------------')
+        for i in range(1, LONG - 1):
+            print(grille[i], '--', discovered[i], '--', drapeau[i])
+
+
     def dim(event) -> None:
         print("*********Size of the window*********")
         print("width :", root.winfo_width())
@@ -118,11 +124,9 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
         button[coord].grid_forget()
         if grille[coord[0]][coord[1]] == 0:
             discovery(coord)
-            for i in range(1, LONG - 1):
-                print(discovered[i])
         else:
             discovered[coord[0]][coord[1]] = 1
-
+        debug()
         loose(coord)
         win()
 
@@ -193,6 +197,7 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
 
     wol = tkinter.Label(root, text='')
 
+    debug()
     # render the windows
 
     root.mainloop()
