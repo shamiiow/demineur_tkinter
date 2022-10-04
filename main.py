@@ -43,8 +43,7 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
 
     grille = fonction.bomb(NB_BOMB, grille)
     grille = fonction.number_fill(LONG, grille)
-    for i in range(1,LONG-1):
-        print(grille[i])
+
     # This function is here only for debug
 
     def dim(event) -> None:
@@ -119,9 +118,10 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
         button[coord].grid_forget()
         if grille[coord[0]][coord[1]] == 0:
             discovery(coord)
+            for i in range(1, LONG - 1):
+                print(discovered[i])
         else:
             discovered[coord[0]][coord[1]] = 1
-        print(restart.cget("image"), img[13], img[14])
 
         loose(coord)
         win()
