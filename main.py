@@ -1,5 +1,7 @@
 # made by ø
 # this code work now
+# Install Minecraft font for better experience ("https://fontmeme.com/polices/police-minecraft/")
+
 
 import tkinter
 import fonction
@@ -11,6 +13,7 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
 
     grille = [[0 for i in range(LONG)] for i in range(LONG)]
     discovered = [[0 for j in range(LONG)] for i in range(LONG)]
+    drapeau = [[0 for j in range(LONG)] for i in range(LONG)]
 
     # create the windows
 
@@ -31,12 +34,17 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
         discovered[LONG-1][i] = 100
         discovered[i][0] = 100
         discovered[i][LONG-1] = 100
+        drapeau[0][i] = 100
+        drapeau[LONG-1][i] = 100
+        drapeau[i][0] = 100
+        drapeau[i][LONG-1] = 100
 
     # place the bomb and put the right number around them
 
     grille = fonction.bomb(NB_BOMB, grille)
     grille = fonction.number_fill(LONG, grille)
-
+    for i in range(1,LONG-1):
+        print(grille[i])
     # This function is here only for debug
 
     def dim(event) -> None:
@@ -54,18 +62,20 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
         x, y = coord[0], coord[1]
         if not ((0 < x < len(grille)) and (0 < y < len(grille))):
             return
+        if drapeau[coord[0]][coord[1]] == 1:
+            return
         for i in [-1, 0, 1]:
             for j in [-1, 1]:
-                if (0 <= grille[x+j][y+i] < 9) and (discovered[x+j][y+i] == 0):
+                if (0 <= grille[x+j][y+i] < 9) and (discovered[x+j][y+i] == 0) and (drapeau[x+j][y+i] == 0):
                     button[(x+j, y+i)].grid_forget()
                     discovered[x+j][y+i] = 1
-                    if grille[x+j][y+i] == 0:
+                    if grille[x+j][y+i] == 0 and (drapeau[x][y+i] == 0):
                         discovery((x+j, y+i))
         for i in [-1, 1]:
-            if (0 <= grille[x][y+i] < 9) and (discovered[x][y+i] == 0):
+            if (0 <= grille[x][y+i] < 9) and (discovered[x][y+i] == 0) and (drapeau[x][y+i] == 0):
                 button[(x, y+i)].grid_forget()
                 discovered[x][y+i] = 1
-                if grille[x][y+i] == 0:
+                if grille[x][y+i] == 0 and (drapeau[x][y+i] == 0):
                     discovery((x, y+i))
 
     # check if the player win
@@ -76,29 +86,42 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
             if 0 not in discovered[i]:
                 x += 1
         if x == LONG:
-            print('Tu as win')
+            restart.config(image=img[14])
+            wol.config(text='win')
+
 
     # check if the player loose
 
     def loose(coord: tuple) -> None:
-        if grille[coord[0]][coord[1]] == 9:
-            for i in range(LONG):
-                for j in range(LONG):
-                    if grille[i][j] == 9:
-                        button[(i, j)].grid_forget()
-            print('Tu as perdu')
+        if grille[coord[0]][coord[1]] != 9:
+            return
+        answer[coord].config(image=img[15])
+        for i in range(LONG):
+            for j in range(LONG):
+                if grille[i][j] == 9:
+                    button[(i, j)].grid_forget()
+                if grille[i][j] != 9 and drapeau[i][j] == 1:
+                    button[(i, j)].grid_forget()
+                    answer[(i, j)].config(image=img[16])
+        restart.config(image=img[13])
+        wol.config(text ='loose')
 
     # this function is executed every time the player click
 
     def user_click(coord: tuple) -> None:
+        if wol.cget("text") != '':
+            return
+        if drapeau[coord[0]][coord[1]] == 1:
+            return
         if grille[coord[0]][coord[1]] > 10:
             return
-        button[coord].grid_forget()
 
+        button[coord].grid_forget()
         if grille[coord[0]][coord[1]] == 0:
             discovery(coord)
         else:
             discovered[coord[0]][coord[1]] = 1
+        print(restart.cget("image"), img[13], img[14])
 
         loose(coord)
         win()
@@ -106,9 +129,19 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
     # this function are going to be for the flag, but it needs to be implemented
 
     def put_flag(event, coord: tuple) -> None:
-        button[coord].grid_forget()
-        button[coord].grid(row=coord[0]+1, column=coord[1])
-        button[coord].config(image=img[10])
+        if drapeau[coord[0]][coord[1]] == 0:
+            drapeau[coord[0]][coord[1]] = 1
+            button[coord].grid_forget()
+            button[coord].grid(row=coord[0]+1, column=coord[1])
+            button[coord].config(image=img[10])
+            bomb_r.config(text=bomb_r.cget('text')-1)
+        elif drapeau[coord[0]][coord[1]] == 1:
+            drapeau[coord[0]][coord[1]] = 0
+            button[coord].grid_forget()
+            button[coord].grid(row=coord[0]+1, column=coord[1], ipadx= 7)
+            button[coord].config(image='')
+            bomb_r.config(text=bomb_r.cget('text')+1)
+
 
     def replay() -> None:
         root.destroy()
@@ -117,7 +150,7 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
     # loading the image for the game
 
     img = {}
-    for i in range(13):
+    for i in range(17):
         img[i] = tkinter.PhotoImage(file=f"img/{i}.png")
 
     # create the 2 frame of widget for the game
@@ -150,13 +183,15 @@ def game(LONG: int, NB_BOMB: int, L=500, l=500) -> None:
 
     # show the number of bomb it last
 
-    bomb_r = tkinter.Label(counter_frame, text=LONG, bg='#bdbdbd', font=("Minecraft", 20, "bold"))
+    bomb_r = tkinter.Label(counter_frame, text=NB_BOMB, bg='#bdbdbd', font=("Minecraft", 20, "bold"))
     bomb_r.grid(row=0, column=0, padx=25, ipadx=25)
 
     # this is for restart the game
 
     restart = tkinter.Button(counter_frame, image=img[12], bg='#bdbdbd', command=replay)
     restart.grid(row=0, column=1, padx=25)
+
+    wol = tkinter.Label(root, text='')
 
     # render the windows
 
