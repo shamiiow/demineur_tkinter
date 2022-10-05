@@ -132,6 +132,8 @@ def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
     # this function are going to be for the flag, but it needs to be implemented
 
     def put_flag(event, coord: tuple) -> None:
+        if wol.cget("text") != '':
+            return
         if flag[coord[0]][coord[1]] == 0:
             flag[coord[0]][coord[1]] = 1
             button[coord].grid_forget()
@@ -152,7 +154,7 @@ def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
     # loading the image for the game
 
     img = {}
-    for i in range(17):
+    for i in range(18):
         img[i] = tkinter.PhotoImage(file=f"img/{i}.png")
 
     # create the 2 frame of widget for the game
@@ -194,6 +196,9 @@ def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
     restart.grid(row=0, column=1, padx=50)
 
     wol = tkinter.Label(root, text='')
+
+    exit = tkinter.Button(counter_frame, image=img[17], bg='#bdbdbd', command=root.destroy)
+    exit.grid(row=0, column=2)
 
     debug()
     # render the windows
