@@ -197,7 +197,7 @@ def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
 
     wol = tkinter.Label(root, text='')
 
-    # to exit the game
+    # to exit the game (improve the img)
 
     exit = tkinter.Button(counter_frame, image=img[17], bg='#bdbdbd', command=root.destroy)
     exit.grid(row=0, column=2)
