@@ -73,13 +73,13 @@ def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
                 if (0 <= grid[x+j][y+i] < 9) and (discovered[x+j][y+i] == 0) and (flag[x+j][y+i] == 0):
                     button[(x+j, y+i)].grid_forget()
                     discovered[x+j][y+i] = 1
-                    if grid[x+j][y+i] == 0 and (flag[x][y+i] == 0):
+                    if grid[x+j][y+i] == 0:
                         discovery((x+j, y+i))
         for i in [-1, 1]:
             if (0 <= grid[x][y+i] < 9) and (discovered[x][y+i] == 0) and (flag[x][y+i] == 0):
                 button[(x, y+i)].grid_forget()
                 discovered[x][y+i] = 1
-                if grid[x][y+i] == 0 and (flag[x][y+i] == 0):
+                if grid[x][y+i] == 0:
                     discovery((x, y+i))
 
     # check if the player win
@@ -126,8 +126,8 @@ def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
         else:
             discovered[coord[0]][coord[1]] = 1
         debug()
-        loose(coord)
         win()
+        loose(coord)
 
     # this function are going to be for the flag, but it needs to be implemented
 
@@ -151,10 +151,20 @@ def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
         root.destroy()
         game_settings()
 
+    def press(event) -> None:
+        if wol.cget("text") == "loose" or wol.cget("text") == "win":
+            return
+        restart.config(image=img[18])
+
+    def release(event) -> None:
+        if wol.cget("text") == "loose" or wol.cget("text") == "win":
+            return
+        restart.config(image=img[12])
+
     # loading the image for the game
 
     img = {}
-    for i in range(18):
+    for i in range(19):
         img[i] = tkinter.PhotoImage(file=f"img/{i}.png")
 
     # create the 2 frame of widget for the game
@@ -184,6 +194,8 @@ def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
             button[(i, j)].grid(row=i+1, column=j, ipadx=7)
             button[(i, j)].bind("<Button-3>", lambda e, x=(i, j): put_flag(e, x))
             button[(i, j)].bind("<Button-2>", dim)
+            button[(i, j)].bind("<ButtonPress-1>", press)
+            button[(i, j)].bind("<ButtonRelease-1>", release)
 
     # show the number of bomb it last
 
@@ -268,8 +280,8 @@ def game_settings() -> None:
 
     text = tkinter.Label(main, text='Or\nCustom\nThe\nSettings', font="Minecraft")
 
-    len_grid = tkinter.Scale(main, from_=30, to=0, orient=tkinter.VERTICAL)
-    number_bomb = tkinter.Scale(main, from_=150, to=0, orient=tkinter.VERTICAL)
+    len_grid = tkinter.Scale(main, from_=30, to=10, orient=tkinter.VERTICAL)
+    number_bomb = tkinter.Scale(main, from_=150, to=3, orient=tkinter.VERTICAL)
     text_grid = tkinter.Label(main, text="  Longer of the  \ngrid", font=("Minecraft", 10))
     text_bomb = tkinter.Label(main, text="Number of\nbomb", font=("Minecraft", 10))
     launch = tkinter.Button(main, text='Launch\nthe game !', font=("Minecraft", 10), command=play)
