@@ -8,7 +8,6 @@ import fonction
 
 
 def game(long: int, nb_bomb: int, speed: bool, size_x=500, size_y=500) -> None:
-    print(speed)
 
     # set up the game
 
@@ -162,6 +161,43 @@ def game(long: int, nb_bomb: int, speed: bool, size_x=500, size_y=500) -> None:
             return
         restart.config(image=img[12])
 
+    def speed_finder(coord):
+        x, y = coord[0], coord[1]
+        if flag[coord[0]][coord[1]] == 1:
+            return
+        for i in [-1, 0, 1]:
+            for j in [-1, 1]:
+                if flag[x+j][y+i] == 0:
+                    button[(x + j, y + i)].grid_forget()
+                    discovered[x + j][y + i] = 1
+                    if grid[x + j][y + i] == 9:
+                        loose((x + j, y + i))
+                    if grid[x + j][y + i] == 0:
+                        discovery((x + j, y + i))
+        for i in [-1, 1]:
+            if flag[x][y + i] == 0:
+                button[(x, y + i)].grid_forget()
+                discovered[x][y + i] = 1
+                if grid[x][y + i] == 9:
+                    loose((x, y + i))
+                if grid[x][y + i] == 0:
+                    discovery((x, y + i))
+
+    def speed_check(e, coord):
+        nb_flag = 0
+        x, y = coord[0], coord[1]
+        if not ((0 < x < len(grid)) and (0 < y < len(grid))):
+            return
+        for i in [-1, 0, 1]:
+            for j in [-1, 1]:
+                if flag[x + j][y + i] == 1:
+                    nb_flag += 1
+        for i in [-1, 1]:
+            if flag[x][y + i] == 1:
+                nb_flag += 1
+        if nb_flag == grid[x][y]:
+            speed_finder(coord)
+
     # loading the image for the game
 
     img = {}
@@ -183,8 +219,10 @@ def game(long: int, nb_bomb: int, speed: bool, size_x=500, size_y=500) -> None:
         for j in range(1, long - 1):
             if grid[i][j] == 9:
                 discovered[i][j] = 5
-            answer[(i, j)] = tkinter.Label(game_frame, image=img[grid[i][j]], bg="#C0ADAC")
+            answer[(i, j)] = tkinter.Button(game_frame, image=img[grid[i][j]], bg="#C0ADAC")
             answer[(i, j)].grid(row=i+1, column=j, ipadx=3, ipady=3, sticky="w")
+            if speed:
+                answer[(i, j)].bind("<Button-1>", lambda e, x=(i, j): speed_check(e, x))
 
     # create the button to hide the grid answer and grid it
 
@@ -273,6 +311,9 @@ def game_settings() -> None:
         settings.append(99)
         main.destroy()
 
+    def speed_onoff():
+        settings[2] = not settings[2]
+
     # create all the widget I need
 
     default = tkinter.Label(main, text='The default settings :', font=("Minecraft", 11))
@@ -288,7 +329,7 @@ def game_settings() -> None:
     text_bomb = tkinter.Label(main, text="Number of\nbomb", font=("Minecraft", 10))
     launch = tkinter.Button(main, text='Launch\nthe game !', font=("Minecraft", 10), command=play)
 
-    fast = tkinter.Checkbutton(main, text='fast ? ', variable=settings[2], onvalue=True, offvalue=False)
+    fast = tkinter.Checkbutton(main, text='fast ? ', font=("Minecraft", 11), variable=settings[2], command=speed_onoff)
 
     bye = tkinter.Button(main, text="  Exit  ", font=("Minecraft", 10), command=main.destroy)
 
