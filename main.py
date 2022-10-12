@@ -7,7 +7,8 @@ import tkinter
 import fonction
 
 
-def game(long: int, nb_bomb: int, size_x=500, size_y=500) -> None:
+def game(long: int, nb_bomb: int, speed: bool, size_x=500, size_y=500) -> None:
+    print(speed)
 
     # set up the game
 
@@ -224,7 +225,8 @@ def game_settings() -> None:
 
     # default settings for the size of the grid
 
-    settings = [841, 851]
+    global speed
+    settings = [841, 851, False]
 
     # create the windows and some settings
 
@@ -286,6 +288,8 @@ def game_settings() -> None:
     text_bomb = tkinter.Label(main, text="Number of\nbomb", font=("Minecraft", 10))
     launch = tkinter.Button(main, text='Launch\nthe game !', font=("Minecraft", 10), command=play)
 
+    fast = tkinter.Checkbutton(main, text='fast ? ', variable=settings[2], onvalue=True, offvalue=False)
+
     bye = tkinter.Button(main, text="  Exit  ", font=("Minecraft", 10), command=main.destroy)
 
     # place all the widget (I know place method is not the best)
@@ -303,15 +307,17 @@ def game_settings() -> None:
     text_bomb.place(x=325+100-5, y=105)
     launch.place(x=370, y=150)
 
-    bye.place(x=220, y=160)
+    fast.place(x=120, y=160)
 
+    bye.place(x=220, y=160)
     # render the windows
 
     main.mainloop()
+    print(settings[2])
 
     # after the windows is kill, the game launch
     try:
-        game(settings[2]+2, settings[3], settings[0], settings[1])
+        game(settings[3]+2, settings[4], settings[2], settings[0], settings[1])
     except IndexError:
         print("Bye")
 
