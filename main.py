@@ -13,7 +13,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, size_x=500, size_y=500) -> N
     grid = [[0 for j in range(long)] for i in range(long)]
     discovered = [[0 for j in range(long)] for i in range(long)]
     flag = [[0 for j in range(long)] for i in range(long)]
-    first_click = False
+    first_click = True
 
     # create the windows
 
@@ -40,18 +40,17 @@ def game(long: int, nb_bomb: int, fast_disco: bool, size_x=500, size_y=500) -> N
         flag[i][long - 1] = 100
 
     # place the bomb and put the right number around them
-    def set_up(coord):
+    def set_up(coord: tuple) -> None:
         nonlocal grid
         grid = fonction.bomb(nb_bomb, grid, coord)
         grid = fonction.number_fill(long, grid)
-
         for i in range(1, long - 1):
             for j in range(1, long - 1):
                 answer[(i, j)].config(image=img[grid[i][j]])
 
     # This function is here only for debug
 
-    def debug():
+    def debug() -> None:
         print('-------------------------------------------------------------------------')
         for i in range(1, long - 1):
             print(grid[i], '--', discovered[i], '--', flag[i])
@@ -118,8 +117,8 @@ def game(long: int, nb_bomb: int, fast_disco: bool, size_x=500, size_y=500) -> N
 
     def user_click(coord: tuple) -> None:
         nonlocal first_click
-        if first_click == False:
-            first_click=True
+        if first_click:
+            first_click = False
             set_up(coord)
         if wol.cget("text") != '':
             return
@@ -228,7 +227,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, size_x=500, size_y=500) -> N
         for j in range(1, long - 1):
             if grid[i][j] == 9:
                 discovered[i][j] = 5
-            answer[(i, j)] = tkinter.Button(game_frame, image=img[grid[i][j]], bg="#C0ADAC")
+            answer[(i, j)] = tkinter.Button(game_frame, image=img[0], bg="#C0ADAC")
             answer[(i, j)].grid(row=i+1, column=j, ipadx=3, ipady=3, sticky="w")
             if fast_disco:
                 answer[(i, j)].bind("<Button-1>", lambda e, x=(i, j): speed_check(e, x))
@@ -286,8 +285,8 @@ def game_settings() -> None:
     def play():
         settings.append(int(len_grid.get()))
         if (int(number_bomb.get())) > (int(len_grid.get()**2)):
-            print(int(len_grid.get()**2))
-            settings.append(int(len_grid.get()**2))
+
+            settings.append(int(len_grid.get()**2)-9)
         else:
             settings.append(int(number_bomb.get()))
         main.destroy()
@@ -331,8 +330,8 @@ def game_settings() -> None:
 
     text = tkinter.Label(main, text='Or\nCustom\nThe\nSettings', font="Minecraft")
 
-    len_grid = tkinter.Scale(main, from_=30, to=10, orient=tkinter.VERTICAL)
-    number_bomb = tkinter.Scale(main, from_=150, to=3, orient=tkinter.VERTICAL)
+    len_grid = tkinter.Scale(main, from_=30, to=0, orient=tkinter.VERTICAL)
+    number_bomb = tkinter.Scale(main, from_=150, to=0, orient=tkinter.VERTICAL)
     text_grid = tkinter.Label(main, text="  Longer of the  \ngrid", font=("Minecraft", 10))
     text_bomb = tkinter.Label(main, text="Number of\nbomb", font=("Minecraft", 10))
     launch = tkinter.Button(main, text='Launch\nthe game !', font=("Minecraft", 10), command=play)
