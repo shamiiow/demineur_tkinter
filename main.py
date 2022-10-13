@@ -4,6 +4,7 @@
 
 import tkinter
 import fonction
+import os
 
 
 def game(long: int, nb_bomb: int, fast_disco: bool, size_x=500, size_y=500) -> None:
@@ -51,7 +52,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, size_x=500, size_y=500) -> N
     # This function is here only for debug
 
     def debug() -> None:
-        print('-------------------------------------------------------------------------')
+        print('-'*50)
         for i in range(1, long - 1):
             print(grid[i], '--', discovered[i], '--', flag[i])
 
@@ -271,7 +272,7 @@ def game_settings() -> None:
 
     # default settings for the size of the grid
 
-    settings = [841, 851, False]
+    settings = [904, 929, False]
 
     # create the windows and some settings
 
@@ -361,7 +362,7 @@ def game_settings() -> None:
     # render the windows
 
     main.mainloop()
-    print(settings[2])
+
 
     # after the windows is kill, the game launch
     try:
