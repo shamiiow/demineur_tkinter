@@ -2,18 +2,18 @@
 # this code work now
 # Install Minecraft font for better experience ("https://fontmeme.com/polices/police-minecraft/")
 
-
 import tkinter
 import fonction
 
 
-def game(long: int, nb_bomb: int, speed: bool, size_x=500, size_y=500) -> None:
+def game(long: int, nb_bomb: int, fast_disco: bool, size_x=500, size_y=500) -> None:
 
     # set up the game
 
-    grid = [[0 for i in range(long)] for i in range(long)]
+    grid = [[0 for j in range(long)] for i in range(long)]
     discovered = [[0 for j in range(long)] for i in range(long)]
     flag = [[0 for j in range(long)] for i in range(long)]
+    first_click = False
 
     # create the windows
 
@@ -40,9 +40,14 @@ def game(long: int, nb_bomb: int, speed: bool, size_x=500, size_y=500) -> None:
         flag[i][long - 1] = 100
 
     # place the bomb and put the right number around them
+    def set_up(coord):
+        nonlocal grid
+        grid = fonction.bomb(nb_bomb, grid, coord)
+        grid = fonction.number_fill(long, grid)
 
-    grid = fonction.bomb(nb_bomb, grid)
-    grid = fonction.number_fill(long, grid)
+        for i in range(1, long - 1):
+            for j in range(1, long - 1):
+                answer[(i, j)].config(image=img[grid[i][j]])
 
     # This function is here only for debug
 
@@ -112,6 +117,10 @@ def game(long: int, nb_bomb: int, speed: bool, size_x=500, size_y=500) -> None:
     # this function is executed every time the player click
 
     def user_click(coord: tuple) -> None:
+        nonlocal first_click
+        if first_click == False:
+            first_click=True
+            set_up(coord)
         if wol.cget("text") != '':
             return
         if flag[coord[0]][coord[1]] == 1:
@@ -221,7 +230,7 @@ def game(long: int, nb_bomb: int, speed: bool, size_x=500, size_y=500) -> None:
                 discovered[i][j] = 5
             answer[(i, j)] = tkinter.Button(game_frame, image=img[grid[i][j]], bg="#C0ADAC")
             answer[(i, j)].grid(row=i+1, column=j, ipadx=3, ipady=3, sticky="w")
-            if speed:
+            if fast_disco:
                 answer[(i, j)].bind("<Button-1>", lambda e, x=(i, j): speed_check(e, x))
 
     # create the button to hide the grid answer and grid it
@@ -263,7 +272,6 @@ def game_settings() -> None:
 
     # default settings for the size of the grid
 
-    global speed
     settings = [841, 851, False]
 
     # create the windows and some settings
@@ -287,8 +295,8 @@ def game_settings() -> None:
     # set default settings and launch the game
 
     def easy():
-        settings[0] = 247
-        settings[1] = 257
+        settings[0] = 256
+        settings[1] = 269
         settings.append(7)
         settings.append(10)
         main.destroy()
@@ -296,8 +304,8 @@ def game_settings() -> None:
     # set default settings and launch the game
 
     def normal():
-        settings[0] = 479
-        settings[1] = 489
+        settings[0] = 513
+        settings[1] = 531
         settings.append(16)
         settings.append(40)
         main.destroy()
@@ -305,8 +313,8 @@ def game_settings() -> None:
     # set default settings and launch the game
 
     def hard():
-        settings[0] = 634
-        settings[1] = 644
+        settings[0] = 684
+        settings[1] = 702
         settings.append(22)
         settings.append(99)
         main.destroy()
