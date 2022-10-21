@@ -331,7 +331,6 @@ def game_settings() -> None:
         settings[1] = 531
         settings.append(16)
         settings.append(40)
-
         main.destroy()
 
     # set default settings and launch the game // niveau préfait ( difficile )
@@ -339,10 +338,8 @@ def game_settings() -> None:
     def hard():
         settings[0] = 684
         settings[1] = 702
-        settings.append(texture.get())
         settings.append(22)
         settings.append(99)
-
         main.destroy()
 
     def speed_onoff():
