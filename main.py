@@ -354,14 +354,14 @@ def game_settings() -> None:
     normal = tkinter.Button(main, text='Normal', font=("Minecraft", 11), command=normal)
     hard = tkinter.Button(main, text='Hard', font=("Minecraft", 11), command=hard)
 
-    l_texture = ["original", "reworked"]
+    l_texture = ["original", "reworked", "minecraft"]
     s_texture = "original"
 
     def action(event):
         nonlocal s_texture
         s_texture = texture.get()
 
-    texture = ttk.Combobox(main, values = l_texture)
+    texture = ttk.Combobox(main, values=l_texture)
     texture.bind("<<ComboboxSelected>>", action)
     texture.current(0)
 
@@ -393,7 +393,6 @@ def game_settings() -> None:
     main.mainloop()
 
     # after the windows is kill, the game launch // ferme le fenêtre et lance le jeu après ça ( il y a donc plusieurs moyen de fermer la fenêtre et le jeu s'ouvre seulement si les paramêtres sont fermés )
-
 
     try:
         game(settings[3]+2, settings[4], settings[2], s_texture, settings[0], settings[1])
