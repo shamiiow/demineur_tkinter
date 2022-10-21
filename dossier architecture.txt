@@ -1,13 +1,14 @@
-Liste de fonctionnalitée :
+Liste de fonctionnalités :
 -Choix de 3 niveaux de difficultée différente (niveau "officiel")
--customnisation la difficulté (taille de la grille et nombre de bombes)
--Placement de drapeau
+-customisation de la difficulté (taille de la grille et nombre de bombes)
+-Placement de drapeaux
 -Rejouer en modifiant les réglages sans relancer le jeux
--Decompe des bombes qu'il reste
+-Décompte des bombes qu'il reste
+-Le premier clique est toujours dénué de bombe et de nombre
 
-Problème : 
--La grille ne peut pas dépacer 30x30, a cause des erreur de recurcivité et a cause du lag que cela engendre
--Avoir la fenetre de jeu et de réglage afficher en même temps
+Problèmes : 
+-La grille ne peut pas dépasser 30x30, à cause des erreurs de recurcivité
+-Avoir la fenêtre de jeu et de réglage affichées en même temps
 
 schéma :
 -https://lucid.app/lucidchart/63ed3861-e896-4832-928a-e5e6cb14501c/edit?viewport_loc=-859%2C-411%2C3510%2C1724%2C0_0&invitationId=inv_c468766d-4c5a-4ce3-b5ef-7ba27ff3fb86#
