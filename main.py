@@ -95,7 +95,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
                 x += 1
         # si toutes les lignes sont découvertes alors le joueur a win
         if x == long:
-            restart.config(image=img[14])
+            restart.config(image=img[13])
             # change le widget de win or loose en "win"
             wol.config(text='win')
 
@@ -106,7 +106,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
         if grid[coord[0]][coord[1]] != 9:
             return
         # met une image customisée pour la bombe qui a fait perdre le joueur
-        answer[coord].config(image=img[15])
+        answer[coord].config(image=img[14])
         # parcour toute la grille et découvre toutes les bombes
         for i in range(long):
             for j in range(long):
@@ -115,9 +115,9 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
                 # si le joueur a mis un drapeau la où il y avait pas de bombe, une image customisée s'affiche
                 if grid[i][j] != 9 and flag[i][j] == 1:
                     button[(i, j)].grid_forget()
-                    answer[(i, j)].config(image=img[16])
+                    answer[(i, j)].config(image=img[15])
         # met l'image de loose sur le smiley
-        restart.config(image=img[13])
+        restart.config(image=img[12])
         # change le widget de win or loose en "loose"
         wol.config(text='loose')
 
@@ -186,14 +186,14 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
     def press(event) -> None:
         if wol.cget("text") == "loose" or wol.cget("text") == "win":
             return
-        restart.config(image=img[18])
+        restart.config(image=img[17])
 
     # change l'image quand un bouton est relaché
 
     def release(event) -> None:
         if wol.cget("text") == "loose" or wol.cget("text") == "win":
             return
-        restart.config(image=img[12])
+        restart.config(image=img[11])
 
     def speed_finder(coord):
         x, y = coord[0], coord[1]
@@ -229,7 +229,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
     # loading the image for the game // charge les images pour le jeu
 
     img = {}
-    for i in range(19):
+    for i in range(18):
         img[i] = tkinter.PhotoImage(file=f"img/{pack_texture}/{i}.png")
 
     # create the 2 frame of widget for the game     // crée 2 cadre d'objet pour le jeu
@@ -241,6 +241,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
     counter_frame.grid(row=0, column=0, pady=5)
 
     # create the grid for the answer and grid it   // crée la grille pour les réponse et l'affiche
+
 
     answer = {}
     for i in range(1, long - 1):
@@ -257,8 +258,8 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
     button = {}
     for i in range(1, long - 1):
         for j in range(1, long - 1):
-            button[(i, j)] = tkinter.Button(game_frame, bg="#606060", command=lambda x=(i, j): user_click(x))
-            button[(i, j)].grid(row=i+1, column=j, ipadx=7)
+            button[(i, j)] = tkinter.Button(game_frame,image=img[0], bg="#606060", command=lambda x=(i, j): user_click(x))
+            button[(i, j)].grid(row=i+1, column=j, ipadx=3, ipady=3)        #7
             button[(i, j)].bind("<Button-3>", lambda e, x=(i, j): put_flag(e, x))
             button[(i, j)].bind("<Button-2>", dim)
             button[(i, j)].bind("<ButtonPress-1>", press)
@@ -271,14 +272,14 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
 
     # this is for restart the game // sert à redémarrer le jeu ( ce sont les smiley )
 
-    restart = tkinter.Button(counter_frame, image=img[12], bg='#bdbdbd', command=replay)
+    restart = tkinter.Button(counter_frame, image=img[11], bg='#bdbdbd', command=replay)
     restart.grid(row=0, column=1, padx=50)
 
     wol = tkinter.Label(root, text='')
 
     # to exit the game (improve the img) // sert à fermer le jeu sans le relancer
 
-    exit = tkinter.Button(counter_frame, image=img[17], bg='#bdbdbd', command=root.destroy)
+    exit = tkinter.Button(counter_frame, image=img[16], bg='#bdbdbd', command=root.destroy)
     exit.grid(row=0, column=2)
 
     debug()
@@ -351,7 +352,7 @@ def game_settings() -> None:
     normal = tkinter.Button(main, text='Normal', font=("Minecraft", 11), command=normal)
     hard = tkinter.Button(main, text='Hard', font=("Minecraft", 11), command=hard)
 
-    l_texture = ["original", "reworked", "minecraft"]
+    l_texture = ["original", "floriant", "minecraft", "32x32"]
     s_texture = "original"
 
     def action(event):
