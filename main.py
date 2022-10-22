@@ -4,7 +4,6 @@
 
 import tkinter
 import fonction
-import os
 from tkinter import ttk
 
 
@@ -242,7 +241,6 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
 
     # create the grid for the answer and grid it   // crée la grille pour les réponse et l'affiche
 
-
     answer = {}
     for i in range(1, long - 1):
         for j in range(1, long - 1):
@@ -258,8 +256,8 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
     button = {}
     for i in range(1, long - 1):
         for j in range(1, long - 1):
-            button[(i, j)] = tkinter.Button(game_frame,image=img[0], bg="#606060", command=lambda x=(i, j): user_click(x))
-            button[(i, j)].grid(row=i+1, column=j, ipadx=3, ipady=3)        #7
+            button[(i, j)] = tkinter.Button(game_frame, image=img[0], bg="#606060", command=lambda x=(i, j): user_click(x))
+            button[(i, j)].grid(row=i+1, column=j, ipadx=3, ipady=3)
             button[(i, j)].bind("<Button-3>", lambda e, x=(i, j): put_flag(e, x))
             button[(i, j)].bind("<Button-2>", dim)
             button[(i, j)].bind("<ButtonPress-1>", press)
@@ -279,8 +277,8 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
 
     # to exit the game (improve the img) // sert à fermer le jeu sans le relancer
 
-    exit = tkinter.Button(counter_frame, image=img[16], bg='#bdbdbd', command=root.destroy)
-    exit.grid(row=0, column=2)
+    leave = tkinter.Button(counter_frame, image=img[16], bg='#bdbdbd', command=root.destroy)
+    leave.grid(row=0, column=2)
 
     debug()
     # render the windows // fait l'affichage de la fenêtre
@@ -367,7 +365,7 @@ def game_settings() -> None:
     number_bomb = tkinter.Scale(main, from_=150, to=0, orient=tkinter.VERTICAL)
 
     launch = tkinter.Button(main, text='    Launch    \nthe game !', font=("Minecraft", 10), command=play)
-    fast = tkinter.Checkbutton(main, font=("Minecraft", 11), variable=settings[2], command=speed_onoff, bg="black")
+    fast = tkinter.Checkbutton(main, font=("Minecraft", 11), command=speed_onoff, bg="black")
 
     bye = tkinter.Button(main, text="\n  Exit  \n", font=("Minecraft", 10), command=main.destroy)
 
