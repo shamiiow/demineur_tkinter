@@ -110,7 +110,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
         # parcour toute la grille et découvre toutes les bombes
         for i in range(long):
             for j in range(long):
-                if grid[i][j] == 9:
+                if grid[i][j] == 9 and flag[i][j] != 1:
                     button[(i, j)].grid_forget()
                 # si le joueur a mis un drapeau la où il y avait pas de bombe, une image customisée s'affiche
                 if grid[i][j] != 9 and flag[i][j] == 1:
