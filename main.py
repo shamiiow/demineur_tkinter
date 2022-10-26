@@ -115,15 +115,17 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
                 if grid[i][j] != 9 and flag[i][j] == 1:
                     button[(i, j)].grid_forget()
                     answer[(i, j)].config(image=img[15])
+
         # met l'image de loose sur le smiley
+
         restart.config(image=img[12])
+
         # change le widget de win or loose en "loose"
         wol.config(text='loose')
 
     # this function is executed every time the player click // cette fonction s'exécute a chaque fois que le joueur clique
 
     def user_click(coord: tuple) -> None:
-        #
         nonlocal first_click
         # si le joueur a perdu ou gagné il ne peut pas jouer
         if wol.cget("text") != '':
@@ -158,6 +160,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
         # si le joueur a gagné il ne peut plus mettre de drapeau
         if wol.cget("text") != '':
             return
+
         # si il n'y avait pas de drapeau à la case cliquée
         if flag[coord[0]][coord[1]] == 0:
             flag[coord[0]][coord[1]] = 1        # changer la valeur dans la liste
@@ -194,7 +197,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
             return
         restart.config(image=img[11])
 
-    def speed_finder(coord):
+    def speed_finder(coord: tuple):
         x, y = coord[0], coord[1]
         # si il y a un drapeau ça ne le découvre pas
         if flag[coord[0]][coord[1]] == 1:
@@ -211,7 +214,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
                         discovery((x + j, y + i))      # faire la découverte de case normal
         # parcour les 2 cases à coté et fait la même chose qu'au dessus
 
-    def speed_check(e, coord):
+    def speed_check(e, coord: tuple) -> None:
         nb_flag = 0     # compteur du nombre de drapeau
         x, y = coord[0], coord[1]
         if not ((0 < x < len(grid)) and (0 < y < len(grid))):       # empeche les erreur d'index
@@ -281,6 +284,7 @@ def game(long: int, nb_bomb: int, fast_disco: bool, pack_texture, size_x=500, si
     leave.grid(row=0, column=2)
 
     debug()
+
     # render the windows // fait l'affichage de la fenêtre
 
     root.mainloop()
@@ -303,7 +307,7 @@ def game_settings() -> None:
 
     # add the customs settings and launch the game // si ce n'est pas une difficulté préfaite cette fonction prend les paramêtre personnalisés
 
-    def play():
+    def play() -> None:
         settings.append(int(len_grid.get()))
         if (int(number_bomb.get())) > (int(len_grid.get()**2)):
 
@@ -315,7 +319,7 @@ def game_settings() -> None:
 
     # set default settings and launch the game // niveau préfait ( facile )
 
-    def easy():
+    def easy() -> None:
         settings[0] = 256
         settings[1] = 269
         settings.append(7)
@@ -325,7 +329,7 @@ def game_settings() -> None:
 
     # set default settings and launch the game // niveau préfait ( moyen )
 
-    def normal():
+    def normal() -> None:
         settings[0] = 513
         settings[1] = 531
         settings.append(16)
@@ -334,14 +338,14 @@ def game_settings() -> None:
 
     # set default settings and launch the game // niveau préfait ( difficile )
 
-    def hard():
+    def hard() -> None:
         settings[0] = 684
         settings[1] = 702
         settings.append(22)
         settings.append(99)
         main.destroy()
 
-    def speed_onoff():
+    def speed_onoff() -> None:
         settings[2] = not settings[2]    # active ou non le jeu rapide
 
     # create all the widget I need // crée tous les objects nécessaire à la fen^tre de paramtre
@@ -353,7 +357,7 @@ def game_settings() -> None:
     l_texture = ["original", "floriant", "minecraft", "32x32"]
     s_texture = "original"
 
-    def action(event):
+    def action(event) -> None:
         nonlocal s_texture
         s_texture = texture.get()
 
@@ -384,6 +388,7 @@ def game_settings() -> None:
     fast.place(x=420, y=445)
 
     bye.place(x=275, y=425)
+
     # render the windows // affiche la fenêtre
 
     main.mainloop()
@@ -394,6 +399,5 @@ def game_settings() -> None:
         game(settings[3]+2, settings[4], settings[2], s_texture, settings[0], settings[1])
     except IndexError:
         print("Bye")
-
 
 game_settings()

@@ -5,10 +5,25 @@ Liste de fonctionnalités :
 -Rejouer en modifiant les réglages sans relancer le jeux
 -Décompte des bombes qu'il reste
 -Le premier clique est toujours dénué de bombe et de nombre
+-Pack de texture customisable
 
 Problèmes : 
 -La grille ne peut pas dépasser 30x30, à cause des erreurs de recurcivité
 -Avoir la fenêtre de jeu et de réglage affichées en même temps
+-La condition de win ne marche pas tout le temps
 
 schéma :
--https://lucid.app/lucidchart/63ed3861-e896-4832-928a-e5e6cb14501c/edit?viewport_loc=-859%2C-411%2C3510%2C1724%2C0_0&invitationId=inv_c468766d-4c5a-4ce3-b5ef-7ba27ff3fb86#
+[disponible sous format png dans le projet]
+https://lucid.app/lucidchart/63ed3861-e896-4832-928a-e5e6cb14501c/edit?viewport_loc=-859%2C-411%2C3510%2C1724%2C0_0&invitationId=inv_c468766d-4c5a-4ce3-b5ef-7ba27ff3fb86#
+
+
+Conclusion Floriant :
+Ce projet m'ai vraiment plu, pouvoir refaire un jeu auquel on a tous joué un jour ou l'autre est assez plaisant. J'ai pour habitude de chercher à comprendre la manière dont fonctionne les jeux auquels je joues et ce de manière assez poussée et pouvoir appliquer cette habitude à quelque chose de plus poussé m'a vraiment fait aimer ce projet.
+J'ai appris pas mal de choses, non seulement des faces de tkinter que je ne connaissait pas ( la plupart à vrai dire ) mais aussi qu'un code bien organisé est très efficasse pour s'y retrouver ( à noter que j'organise très peu mes mes créations par fainéantise ). J'ai aussi apris que lors d'un projet, deux personnes valent mieux qu'une car tout le monde ne pense pas de la même manière ( ici matéo et moi nous sommes, d'après moi, bien complètés dans le sens ou il est plus doué pour le code pure et ou je le suis plus pour la compréhension du fonctionnement du jeux ou du code, ainsi corriger des erreurs ou créer des fonction devient beaucoup plus simple ).
+Ce que je ferais autrement c'est la boucle réccursive de découvert des cases : étan donné qu'elle nous limite à une grille de 30 par 30 pour des erreurs de mémoire, j'aimerais bien trouver un moyen de la recréer en itératif pour faire des grilles plus grandes ( comme dans le vrai démineur).
+Ce qui m'a posé le plus de difficultés est la compréhension de tkinter qui m'étais totalement inconnu avant les premiers cours dessus.
+Je ne pense pas que j'aurais aimé ajouter plus de fonctionnalités le projet étan déjà très proche du démineur classique. Cependant l'ajout de plus de pack de texture aurait été intéressant ( je pense à des pack pouvant modifier la difficulté mais les idées restent à dévelloper cela me parait complexe de rendre des pack réellement utile au jeu).
+
+Conclusion Matéo :
+Ce qui m’a plus dans ce projet est le côté technique et concret du programme, j’ai l’habitude de faire des petits projet qui ne mène pas souvent à grand chose et qui sont rarement terminé. Il m’a permis d’apprendre à bien structuré un programme et à le diviser en plusieurs parties. J’ai aussi pu apprendre à bien mieux utiliser tkinter. La prochaine fois je ferais en sorte de diviser le programme intelligemment dès le début pour résoudre plus rapidement et efficacement les bug. Ce qui m’a vraiment posé problème c’est la récursivité pour la découverte des cases qui est, sans aucun doute, la partie la plus compliqué à faire
+J’aurais vraiment aimé ajouter les réglages directement dans la fenêtre de jeu mais c’est trop avancé pour les compétences
